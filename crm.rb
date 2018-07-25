@@ -86,7 +86,15 @@ class CRM
   end
 
   def delete_contact
-
+    print "Please enter the first name of the contact you would like to delete: "
+    name = gets.chomp.downcase
+    contact = Contact.find_by(1, name)
+    contact.delete
+    puts ""
+    puts "The entry has been deleted".upcase
+    puts "Returning to main menu..."
+    sleep(2)
+    clear_src
   end
 
   def display_all_contacts
