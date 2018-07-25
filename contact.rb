@@ -64,21 +64,27 @@ class Contact
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
   def self.find_by(attribute, value)
     case attribute
-    when 1 # search by first name
+    # when 1 # search by id
+    #   @@contacts.each do |contact|
+    #     if contact.id == value
+    #       return contact
+    #     end
+    #   end
+  when 1 # search by first name
       @@contacts.each do |contact|
-        if contact.first_name.downcase == value.downcase
+        if contact.first_name.downcase == value
           return contact
         end
       end
     when 2 # search by last name
       @@contacts.each do |contact|
-        if contact.last_name.downcase == value.downcase
+        if contact.last_name.downcase == value
           return contact
         end
       end
     when 3 # search by email
       @@contacts.each do |contact|
-        if contact.email.downcase == value.downcase
+        if contact.email.downcase == value
           return contact
         end
       end

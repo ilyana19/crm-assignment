@@ -20,7 +20,8 @@ class CRM
     puts '[3] Delete a contact'
     puts '[4] Display all the contacts'
     puts '[5] Search by attribute'
-    puts '[6] Exit'
+    puts '[6] Delete all entries'
+    puts '[7] Exit'
     print 'Enter a number: '
   end
 
@@ -31,7 +32,8 @@ class CRM
     when 3 then delete_contact
     when 4 then display_all_contacts
     when 5 then search_by_attribute
-    when 6 then exit
+    when 6 then delete_all_entires
+    when 7 then exit
     end
   end
 
@@ -55,11 +57,13 @@ class CRM
 
   def modify_existing_contact
     clear_src
-    print "Enter the first name of the contact to update: "
-    name = gets.chomp.downcase
+    # print "Enter the first name of the contact to update: "
+    # name = gets.chomp.downcase
+    print "Enter the ID: \#"
+    id = gets.chomp.to_i
 
     # display the current info, and always search by "first name"
-    p contact = Contact.find_by(1, name)
+    p contact = Contact.find_by(id, name)
 
     puts "\nUpdate menu".upcase
     display_attribute_menu
@@ -110,7 +114,7 @@ class CRM
     attribute = gets.chomp.to_i
 
     if attribute >= 1 && attribute <= 5
-      if attribute >= 1 && attribute <= 3
+      if attribute < 4
         print "Enter the value of the selected attribute: "
         value = gets.chomp.downcase
 
@@ -126,6 +130,15 @@ class CRM
       clear_src
       return
     end
+  end
+
+  def delete_all_entires
+    Contact.delete_all
+    puts ""
+    puts "All entries have been deleted.".upcase
+    puts "Returning to main menu..."
+    sleep(2)
+    clear_src
   end
 
   # clears terminal screen
@@ -144,4 +157,3 @@ end
 
 ec_app = CRM.new("Evillious Chronicles")
 ec_app.main_menu
-ec_app.print_main_menu
