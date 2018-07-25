@@ -35,6 +35,8 @@ class Contact
     @@contacts.each do |contact|
       if contact.id == id
         return contact
+      else
+        puts "Error: ID does not exists".upcase
       end
     end
   end
@@ -43,16 +45,48 @@ class Contact
   # 1. which of the contact's attributes you want to update
   # 2. the new value for that attribute
   # and then make the appropriate change to the contact
-  def update
-
+  def update(attribute, value)
+    case attribute
+    when 1
+      @first_name = value.capitalize
+    when 2
+      @last_name = value.capitalize
+    when 3
+      @email = value
+    when 4
+      @note = value.capitalize
+    end
   end
 
   # This method should work similarly to the find method above
   # but it should allow you to search for a contact using attributes other than id
   # by specifying both the name of the attribute and the value
   # eg. searching for 'first_name', 'Betty' should return the first contact named Betty
-  def self.find_by
-
+  def self.find_by(attribute, value)
+    case attribute
+    when 1 # search by first name
+      @@contacts.each do |contact|
+        if contact.first_name.downcase == value.downcase
+          return contact
+        end
+      end
+    when 2 # search by last name
+      @@contacts.each do |contact|
+        if contact.last_name.downcase == value.downcase
+          return contact
+        end
+      end
+    when 3 # search by email
+      @@contacts.each do |contact|
+        if contact.email.downcase == value.downcase
+          return contact
+        end
+      end
+    when 4 # unable to search by notes
+      puts "ERROR: Field too broad".upcase
+    when 5 # return to main
+      return
+    end
   end
 
   # This method should delete all of the contacts
@@ -71,5 +105,4 @@ class Contact
   end
 
   # Feel free to add other methods here, if you need them.
-
 end

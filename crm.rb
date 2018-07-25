@@ -7,7 +7,7 @@ class CRM
   end
 
   def main_menu
-    while true #repeat indefinitely
+    while true # repeat indefinitely
       print_main_menu
       user_selected = gets.to_i
       call_option(user_selected)
@@ -26,12 +26,12 @@ class CRM
 
   def call_option(user_selected)
     case user_selected
-      when 1 then add_new_contact
-      when 2 then modify_existing_contact
-      when 3 then delete_contact
-      when 4 then display_all_contacts
-      when 5 then search_by_attribute
-      when 6 then exit
+    when 1 then add_new_contact
+    when 2 then modify_existing_contact
+    when 3 then delete_contact
+    when 4 then display_all_contacts
+    when 5 then search_by_attribute
+    when 6 then exit
     end
   end
 
@@ -50,11 +50,39 @@ class CRM
 
     Contact.create(first_name, last_name, email, note)
 
-    puts "\e[H\e[2J" # clears terminal screen
+    clear_src
   end
 
   def modify_existing_contact
+    clear_src
+    print "Enter the first name of the contact to update: "
+    name = gets.chomp.downcase
 
+    # display the current info, and always search by "first name"
+    p contact = Contact.find_by(1, name)
+
+    puts "\nUpdate menu".upcase
+    display_attribute_menu
+    print "Select the field you wish to modify: "
+    attribute = gets.chomp.to_i
+
+    if attribute >= 1 && attribute <= 5
+      if attribute < 5
+        print "Please enter the new value: "
+        new_value = gets.chomp.downcase
+        contact.update(attribute, new_value)
+
+        puts ""
+        p contact # show updated result
+        puts ""
+      else
+        return
+      end
+    else
+      puts "ERROR: Invalid Input".upcase
+      clear_src
+      return
+    end
   end
 
   def delete_contact
@@ -62,13 +90,47 @@ class CRM
   end
 
   def display_all_contacts
-    puts "\e[H\e[2J"
+    clear_src
     p Contact.all
     puts ""
   end
 
   def search_by_attribute
+    puts "\nSearch Menu".upcase
+    display_attribute_menu
+    print "Select the field you wish to search with: "
+    attribute = gets.chomp.to_i
 
+    if attribute >= 1 && attribute <= 5
+      if attribute >= 1 && attribute <= 3
+        print "Enter the value of the selected attribute: "
+        value = gets.chomp.downcase
+
+        contact = Contact.find_by(attribute, value)
+        clear_src
+        p contact
+      elsif attribute == 4
+        puts "ERROR: Field too broad".upcase
+        return
+      end
+    else
+      puts "ERROR: Invalid Input".upcase
+      clear_src
+      return
+    end
+  end
+
+  # clears terminal screen
+  def clear_src
+    puts "\e[H\e[2J"
+  end
+
+  def display_attribute_menu
+    puts '[1] First Name'
+    puts '[2] Last Name'
+    puts '[3] Email Address'
+    puts '[4] Notes'
+    puts '[5] Return'
   end
 end
 
