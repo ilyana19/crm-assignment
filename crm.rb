@@ -62,7 +62,9 @@ class CRM
   end
 
   def display_all_contacts
-
+    puts "\e[H\e[2J"
+    p Contact.all
+    puts ""
   end
 
   def search_by_attribute
