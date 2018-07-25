@@ -57,13 +57,14 @@ class CRM
 
   def modify_existing_contact
     clear_src
-    # print "Enter the first name of the contact to update: "
-    # name = gets.chomp.downcase
-    print "Enter the ID: \#"
-    id = gets.chomp.to_i
+    print "Enter the first name of the contact to update: "
+    name = gets.chomp.downcase
+    # print "Enter the ID: \#"
+    # id = gets.chomp.to_i
 
     # display the current info, and always search by "first name"
-    p contact = Contact.find_by(id, name)
+    p contact = Contact.find_by(1, name)
+    # p contact = Contact.find_by(id, name)
 
     puts "\nUpdate menu".upcase
     display_attribute_menu
