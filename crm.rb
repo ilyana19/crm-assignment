@@ -58,18 +58,23 @@ class CRM
   def modify_existing_contact
     clear_src
     print "Enter the first name of the contact to update: "
-    name = gets.chomp.downcase
+    value = gets.chomp.downcase
     # print "Enter the ID: \#"
-    # id = gets.chomp.to_i
+    # value = gets.chomp.to_i
 
     # display the current info, and always search by "first name"
-    p contact = Contact.find_by(1, name)
-    # p contact = Contact.find_by(id, name)
+    p contact = Contact.find_by(1, value)
+    # p contact = Contact.find_by(0, value)
 
     puts "\nUpdate menu".upcase
     display_attribute_menu
     print "Select the field you wish to modify: "
     attribute = gets.chomp.to_i
+
+    if attribute == 0
+      puts "Error: Cannot change User ID".upcase
+      return
+    end
 
     if attribute >= 1 && attribute <= 5
       if attribute < 5
@@ -158,3 +163,7 @@ end
 
 ec_app = CRM.new("Evillious Chronicles")
 ec_app.main_menu
+
+at_exit do
+  ActiveRecord::Base.connection.close
+end
