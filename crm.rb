@@ -20,8 +20,7 @@ class CRM
     puts '[3] Delete a contact'
     puts '[4] Display all the contacts'
     puts '[5] Search by attribute'
-    puts '[6] Delete all entries'
-    puts '[7] Exit'
+    puts '[6] Exit'
     puts ""
     print 'Enter a number: '
   end
@@ -33,8 +32,7 @@ class CRM
     when 3 then delete_contact
     when 4 then display_all_contacts
     when 5 then search_by_attribute
-    when 6 then delete_all_entires
-    when 7 then exit
+    when 6 then exit
     end
   end
 
@@ -105,7 +103,26 @@ class CRM
     end
   end
 
-  def delete_contact
+  def delete_contact # => deleting everything from the database would be bad...
+    clear_src
+    until @confirmation == 'y'
+      print "Enter the ID of the contact to delete: "
+      user_id = gets.to_i
+      contact = Contact.find(user_id)
+
+      puts ""
+      p contact
+      puts ""
+      print "Is this the correct one? (Y/N): "
+      @confirmation = gets.chomp.downcase
+      puts ""
+      clear_src
+    end
+
+    contact.delete
+    puts "\nContact deleted".upcase
+    sleep(2)
+    clear_src
   end
 
   def display_all_contacts
@@ -138,9 +155,6 @@ class CRM
     puts "\nProcessing...".upcase
     sleep(5)
     clear_src
-  end
-
-  def delete_all_entires
   end
 
   # clears terminal screen
