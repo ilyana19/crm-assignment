@@ -34,6 +34,7 @@ class CRM
     when 5 then search_by_attribute
     when 6 then exit
     end
+    # should be able to check for invalid input
   end
 
   def add_new_contact
@@ -77,6 +78,7 @@ class CRM
       puts ""
       clear_src
     end
+    # should be able to return to main menu because they changed their minds
 
     display_attribute_menu
     print "\nSelect the field you wish to search with: "
@@ -101,6 +103,7 @@ class CRM
       sleep(2)
       clear_src
     end
+    # should be able to check for invalid input
   end
 
   def delete_contact # => deleting everything from the database would be bad...
@@ -118,6 +121,7 @@ class CRM
       puts ""
       clear_src
     end
+    # should be able to return to main menu because they changed their minds
 
     contact.delete
     puts "\nContact deleted".upcase
@@ -159,6 +163,7 @@ class CRM
     puts "\nProcessing...".upcase
     sleep(3)
     clear_src
+    # nice to be able to return to main menu
   end
 
   # clears terminal screen
