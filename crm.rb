@@ -66,8 +66,22 @@ class CRM
     puts "Modify Menu".upcase
     puts "-------------------------"
 
+    until @confirmation == 'y'
+      print "Enter the ID of the contact to modify: "
+      user_id = gets.to_i
+      contact = Contact.find(user_id)
+
+      puts ""
+      p contact
+      puts ""
+      print "Is this the correct one? (Y/N): "
+      @confirmation = gets.chomp.downcase
+      puts ""
+      clear_src
+    end
+
     display_attribute_menu
-    print "Enter the ID of the contact to modify: "
+    print "\nSelect the field you wish to search with: "
     @user_input = gets.to_i
 
     # "mapping" user input integer to actual attribute keys then save to a variable
@@ -76,8 +90,19 @@ class CRM
 
     if @user_input == 1
       puts "Error: cannot modify user id.".upcase
+      puts "\nRestarting...".upcase
+      sleep(2)
+      clear_src
+    else
+      print "Enter the new value: "
+      new_value = gets.chomp
+      contact = Contact.update(contact.id, attribute => new_value)
+      puts ""
+      p contact
+      puts "\nProcessing...".upcase
+      sleep(2)
+      clear_src
     end
-
   end
 
   def delete_contact
@@ -140,7 +165,7 @@ class CRM
     when 4 then attribute = 'email'
     when 5 then attribute = 'note'
     end
-    
+
     return attribute
   end
 end
