@@ -22,6 +22,7 @@ class CRM
     puts '[5] Search by attribute'
     puts '[6] Delete all entries'
     puts '[7] Exit'
+    puts ""
     print 'Enter a number: '
   end
 
@@ -50,7 +51,6 @@ class CRM
     print "Enter a Note: "
     note = gets.chomp
 
-    # Contact.create(first_name, last_name, email, note)
     contact = Contact.create(
       first_name: first_name,
       last_name: last_name,
@@ -63,54 +63,24 @@ class CRM
 
   def modify_existing_contact
     clear_src
-    print "Enter the first name of the contact to update: "
-    value = gets.chomp.downcase
-    # print "Enter the ID: \#"
-    # value = gets.chomp.to_i
+    puts "Modify Menu".upcase
+    puts "-------------------------"
 
-    # display the current info, and always search by "first name"
-    p contact = Contact.find_by(1, value)
-    # p contact = Contact.find_by(0, value)
-
-    puts "\nUpdate menu".upcase
     display_attribute_menu
-    print "Select the field you wish to modify: "
-    attribute = gets.chomp.to_i
+    print "Enter the ID of the contact to modify: "
+    @user_input = gets.to_i
 
-    if attribute == 0
-      puts "Error: Cannot change User ID".upcase
-      return
+    # "mapping" user input integer to actual attribute keys then save to a variable
+    # but maybe should be an instance variable??
+    attribute = convert_attribute_input
+
+    if @user_input == 1
+      puts "Error: cannot modify user id.".upcase
     end
 
-    if attribute >= 1 && attribute <= 5
-      if attribute < 5
-        print "Please enter the new value: "
-        new_value = gets.chomp.downcase
-        contact.update(attribute, new_value)
-
-        puts ""
-        p contact # show updated result
-        puts ""
-      else
-        return
-      end
-    else
-      puts "ERROR: Invalid Input".upcase
-      clear_src
-      return
-    end
   end
 
   def delete_contact
-    print "Please enter the first name of the contact you would like to delete: "
-    name = gets.chomp.downcase
-    contact = Contact.find_by(1, name)
-    contact.delete
-    puts ""
-    puts "The entry has been deleted".upcase
-    puts "Returning to main menu..."
-    sleep(2)
-    clear_src
   end
 
   def display_all_contacts
@@ -120,37 +90,32 @@ class CRM
   end
 
   def search_by_attribute
-    puts "\nSearch Menu".upcase
+    clear_src
+    puts "Search Menu".upcase
+    puts "-------------------------"
+
     display_attribute_menu
-    print "Select the field you wish to search with: "
-    attribute = gets.chomp.to_i
+    print "\nSelect the field you wish to search with: "
+    @user_input = gets.to_i
 
-    if attribute >= 1 && attribute <= 5
-      if attribute < 4
-        print "Enter the value of the selected attribute: "
-        value = gets.chomp.downcase
+    # "mapping" user input integer to actual attribute keys then save to a variable
+    # but maybe should be an instance variable??
+    attribute = convert_attribute_input
 
-        contact = Contact.find_by(attribute, value)
-        clear_src
-        p contact
-      elsif attribute == 4
-        puts "ERROR: Field too broad".upcase
-        return
-      end
-    else
-      puts "ERROR: Invalid Input".upcase
-      clear_src
-      return
-    end
+    print "Enter the value (case sensitive): "
+    user_value = gets.chomp
+
+    contact = Contact.find_by(attribute => user_value)
+
+    puts ""
+    p contact
+
+    puts "\nProcessing...".upcase
+    sleep(5)
+    clear_src
   end
 
   def delete_all_entires
-    Contact.delete_all
-    puts ""
-    puts "All entries have been deleted.".upcase
-    puts "Returning to main menu..."
-    sleep(2)
-    clear_src
   end
 
   # clears terminal screen
@@ -159,11 +124,24 @@ class CRM
   end
 
   def display_attribute_menu
-    puts '[1] First Name'
-    puts '[2] Last Name'
-    puts '[3] Email Address'
-    puts '[4] Notes'
-    puts '[5] Return'
+    puts '[1] User ID'
+    puts '[2] First Name'
+    puts '[3] Last Name'
+    puts '[4] Email Address'
+    puts '[5] Notes'
+  end
+
+  # "mapping" user input integer to actual attribute keys then return the new "key"
+  def convert_attribute_input
+    case @user_input
+    when 1 then attribute = 'id'
+    when 2 then attribute = 'first_name'
+    when 3 then attribute = 'last_name'
+    when 4 then attribute = 'email'
+    when 5 then attribute = 'note'
+    end
+    
+    return attribute
   end
 end
 
