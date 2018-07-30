@@ -147,13 +147,17 @@ class CRM
     print "Enter the value (case sensitive): "
     user_value = gets.chomp
 
-    contact = Contact.find_by(attribute => user_value)
-
     puts ""
-    p contact
+    # searching if the record actually exists
+    if Contact.exists?(attribute => user_value)
+      contact = Contact.find_by(attribute => user_value)
+      p contact
+    else
+      puts "The contact does not exists."
+    end
 
     puts "\nProcessing...".upcase
-    sleep(5)
+    sleep(3)
     clear_src
   end
 
